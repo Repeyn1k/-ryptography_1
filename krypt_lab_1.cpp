@@ -55,7 +55,6 @@ void Distribution::printDistr() {
     for (int i = 0; i < size; i++) {
         cout << names[i] << ": " << number[i] << endl;
     }
-    cout << numbilets << " " << parameter << " " << size << '\n';
 }
 
 void Distribution::hashing()
@@ -69,23 +68,23 @@ void Distribution::hashing()
 
 
 int main(int argc, char** argv) {
-    setlocale(LC_ALL, "ru");
-    if (string(argv[1]) == "--file" && string(argv[3]) == "--numbilets" && 
-    string(argv[5]) == "--parameter") {
-        Distribution distr(atoi(argv[4]), atoi(argv[6]));
-        ifstream in(argv[2]); // окрываем файл для чтения
-        if (in.is_open())
-        {
-            string str_1;
-            while (getline(in, str_1))
+    if (argc == 7)
+        if (string(argv[1]) == "--file" && string(argv[3]) == "--numbilets" && 
+        string(argv[5]) == "--parameter") {
+            Distribution distr(atoi(argv[4]), atoi(argv[6]));
+            ifstream in(argv[2]); 
+            if (in.is_open())
             {
-                distr.fillNames(str_1);
+                string str_1;
+                while (getline(in, str_1))
+                {
+                    distr.fillNames(str_1);
+                }
             }
+            in.close();      
+            distr.hashing();
+            distr.printDistr();
         }
-        in.close();     // закрываем файл  
-        distr.hashing();
-        distr.printDistr();
-    }
     else return 1;
     return 0;
 }
